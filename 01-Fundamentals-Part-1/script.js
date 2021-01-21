@@ -1,4 +1,4 @@
-// variable declaration
+// ****** VARIABLE DECLARATION ****** //
 let firstName = "Siddhant";
 
 // using variables to display its value
@@ -103,7 +103,6 @@ console.log(`${Boolean(bool1)} => ${typeof Boolean(bool1)}`);
 console.log(`${Boolean(bool2)} => ${typeof Boolean(bool2)}`);
 console.log(`${Boolean(bool3)} => ${typeof Boolean(bool3)}`); 
 
-
 // type coercion => This implies that JS itself converts datatype depening on the operations
 // the '+' operand converts all numbers to string and all other oprators converts string to number
 console.log('5'+5+'10'-5);  // >> 55+'10'-5  >> 5510-5  >> 5505
@@ -111,4 +110,49 @@ console.log('5'-5-'10'+5);  // >> 0-'10'+5  >> -10+5  >> -5
 console.log('5' > 6);  // >> 5 > 6 >> false
 
 
+// ****** TRUTHY & FALSY VALUE ****** //
+// Falsy Value => Empty string, undefined and undefined variables, null, NaN, and 0
+// Rest all is Truty value
+console.log(`Empty String => ${Boolean('')}`);
+console.log(`0 => ${Boolean(0)}`);
+let hello;
+console.log(`undefined => ${Boolean(hello)}`);
+console.log(`Null => ${Boolean(null)}`);
+console.log(`NaN => ${Boolean(Number('hello'))}`);
 
+
+// ****** == v/s === ****** //
+// == (or !=) is loose equality operator and does type coercion implicitly
+// === (or !==) is a strict equality operator and doesn't performs type coercion implicitly
+let equal2 = '1' == 1;
+let equal3 = '1' === 1;
+console.log(`'1' == 1 => ${equal2}`);
+console.log(`'1' === 1 => ${equal3}`);
+
+
+// ****** LOGICAL OPERATORS ****** //
+// && => 
+const hasDriverLicense = true;
+const hasGoodVision = true;
+const isTired = false;
+
+if (!hasGoodVision) {
+    console.log(`Siddhant don't have good vision`);
+} else {
+    console.log(`Siddhant have good vision`);
+}
+
+if (hasDriverLicense && hasGoodVision) {
+    console.log(`Siddhant Can Drive`);
+} else {
+    console.log(`Siddhant Can't Drive`);
+}
+
+if (hasDriverLicense && hasGoodVision && !isTired){
+    console.log(`Siddhant Can Drive`);
+} else {
+    console.log(`Siddhant Can't Drive`);
+}
+
+// ****** TERNARY OPERATORs ****** //
+// condition ? value if true : value if false
