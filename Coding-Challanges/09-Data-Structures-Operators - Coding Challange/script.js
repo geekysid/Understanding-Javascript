@@ -4,11 +4,11 @@ console.log("//////////////// Coding Challenge # 1");
     We're building a football betting app (soccer for my American friends 😅)!
     Suppose we get data from a web service about a certain game ('game' variable on
     next page). In this challenge we're gonna work with that data.
+
     Your tasks:
   
-    1. Create one player array for each team (variables 'players1' and
-    'players2')
-  
+    1. Create one player array for each team (variables 'players1' and 'players2')
+    
     2. The first player in any player array is the goalkeeper and the others are field
     players. For Bayern Munich (team 1) create one variable ('gk') with the
     goalkeeper's name, and one array ('fieldPlayers') with all the remaining 10
@@ -27,58 +27,93 @@ console.log("//////////////// Coding Challenge # 1");
     6. Write a function ('printGoals') that receives an arbitrary number of player
     names (not an array) and prints each of them to the console, along with the
     number of goals that were scored in total (number of player names passed in)
-  
+    
     7. The team with the lower odd is more likely to win. Print to the console which
     team is more likely to win, without using an if/else statement or the ternary
-    operator.
+    operator.    
   
     Test data for 6.: First, use players 'Davies', 'Muller', 'Lewandowski' and 'Kimmich'.
     Then, call the function again with players from game.scored
     GOOD LUCK 😀
-
-    const game = {
-        team1: "Bayern Munich",
-        team2: "Borrussia Dortmund",
-        players: [
-            [
-                "Neuer",
-                "Pavard",
-                "Martinez",
-                "Alaba",
-                "Davies",
-                "Kimmich",
-                "Goretzka",
-                "Coman",
-                "Muller",
-                "Gnarby",
-                "Lewandowski",
-            ],
-            [
-                "Burki",
-                "Schulz",
-                "Hummels",
-                "Akanji",
-                "Hakimi",
-                "Weigl",
-                "Witsel",
-                "Hazard",
-                "Brandt",
-                "Sancho",
-                "Gotze",
-            ],
-        ],
-        score: "4:0",
-        scored: ["Lewandowski", "Gnarby", "Lewandowski", "Hummels"],
-        date: "Nov 9th, 2037",
-        odds: {
-            team1: 1.33,
-            x: 3.25,
-            team2: 6.5,
-        },
-    };
 */
 
+const game = {
+  team1: "Bayern Munich",
+  team2: "Borrussia Dortmund",
+  players: [
+    [
+      "Neuer",
+      "Pavard",
+      "Martinez",
+      "Alaba",
+      "Davies",
+      "Kimmich",
+      "Goretzka",
+      "Coman",
+      "Muller",
+      "Gnarby",
+      "Lewandowski",
+    ],
+    [
+      "Burki",
+      "Schulz",
+      "Hummels",
+      "Akanji",
+      "Hakimi",
+      "Weigl",
+      "Witsel",
+      "Hazard",
+      "Brandt",
+      "Sancho",
+      "Gotze",
+    ],
+  ],
+  score: "4:0",
+  scored: ["Lewandowski", "Gnarby", "Lewandowski", "Hummels"],
+  date: "Nov 9th, 2037",
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+// 1.
+const [players1, players2] = game.players;
+
+// 2.
+const [gk, ...fieldPlayers] = players1;
+
+// 3.
+const allPlayers = [...players1, ...players2];
+
+// 4.
+const players1Final = [...players1, "Thiago", "Coutinho", "Perisic"];
+
+// 5.
+const { team1, x: draw, team2 } = game.odds;
+console.log(team1, draw, team2);
+
+// 6.
+const printGoals = function (...goalScorers) {
+  for (let player of new Set(goalScorers)) {
+    let goalScored = 0;
+
+    for (let i = 0; i < goalScorers.length; i++) {
+      player === goalScorers[i] && goalScored++;
+    }
+    console.log(`${player}: ${goalScored}`);
+  }
+};
+printGoals("Davies", "Muller", "Lewandowski", "Kimmich");
+printGoals(...game.scored);
+
+// 7.
+team1 < team2 && console.log(`Team1 is more likely to wins`);
+team1 > team2 && console.log(`Team2 is more likely to wins`);
+
 // ****** Coding Challenge # 2 ****** //
+console.log();
 console.log("//////////////// Coding Challenge # 2");
 /*
     Let's continue with our football betting app! Keep using the 'game' variable from
@@ -110,7 +145,45 @@ console.log("//////////////// Coding Challenge # 2");
     GOOD LUCK 😀
 */
 
+// 1.
+// const goalPrinter = function () {
+//   let goalCount = 0;
+//   for (let player in game.scored) {
+//     goalCount++;
+//     console.log(`Goal ${goalCount}: ${player}`);
+//   }
+// };
+const goalPrinter = function () {
+  for (let [index, player] of game.scored.entries()) {
+    console.log(`Goal ${index + 1}: ${player}`);
+  }
+};
+goalPrinter();
+
+// 2.
+const valuesOdds = Object.values(game.odds);
+let totalOdds = 0;
+for (let value of valuesOdds) {
+  totalOdds += value;
+}
+console.log(`Average Odds: ${totalOdds / valuesOdds.length}`);
+
+// 3.
+for (let [key, odds] of Object.entries(game.odds)) {
+  const team = game[key] ? `victory ${game[key]}` : "Draw";
+  //   const odds = game.odds[key] || game.odds["x"];
+  console.log(`Odd of ${team}: ${odds}`);
+}
+
+// 4.
+let scorersGoal = {};
+for (let player of game.scored) {
+  scorersGoal[player] ? scorersGoal[player]++ : (scorersGoal[player] = 1);
+}
+console.log(scorersGoal);
+
 // ****** Coding Challenge # 3 ****** //
+console.log();
 console.log("//////////////// Coding Challenge # 3");
 /*
     Let's continue with our football betting app! This time, we have a map called
@@ -147,11 +220,48 @@ console.log("//////////////// Coding Challenge # 3");
         [92, '🔶 Yellow card'],
     ]);
 */
+const gameEvents = new Map([
+  [17, "⚽ GOAL"],
+  [36, "🔁 Substitution"],
+  [47, "⚽ GOAL"],
+  [61, "🔁 Substitution"],
+  [64, "🔶 Yellow card"],
+  [69, "🔴 Red card"],
+  [70, "🔁 Substitution"],
+  [72, "🔁 Substitution"],
+  [76, "⚽ GOAL"],
+  [80, "⚽ GOAL"],
+  [92, "🔶 Yellow card"],
+]);
+
+// 1.
+const uniqueEvents = function () {
+  return new Set([...gameEvents.values()]);
+};
+const events = uniqueEvents();
+console.log(events);
+
+// 2.
+gameEvents.delete(64);
+console.log(gameEvents);
+
+// 3.
+const eventsCount = [...gameEvents.keys()].length;
+eventsSR = 90 / eventsCount;
+console.log(`An event happened, on average, every ${eventsSR} minutes.`);
+
+// 4.
+for (let [min, event] of gameEvents.entries()) {
+  const half = min < 45 ? "FIRST HALF" : "SECOND HALF";
+  // [${half}] ${min}: ${event}
+  console.log(`[${half}] ${min}: ${event}`);
+}
 
 // ****** Coding Challenge # 4 ****** //
+console.log();
 console.log("//////////////// Coding Challenge # 4");
 /*
-    Write a program that receives a list of variable names written in underscore_case
+    1. Write a program that receives a list of variable names written in underscore_case
     and convert them to camelCase.
     The input will come from a textarea inserted into the DOM (see code below to
     insert the elements), and conversion will happen when the button is pressed.
@@ -184,9 +294,23 @@ console.log("//////////////// Coding Challenge # 4");
     GOOD LUCK 😀
     
 */
+const inputStr = `underscore_case
+    first_name
+Some_Variable_name
+    calculate_AGE
+delayed_departure`;
 
-// ****** Coding Challenge # 5 ****** //
-console.log("//////////////// Coding Challenge # 5");
-/*
+const strArray = inputStr.toLowerCase().replace(/ /g, "").split("\n");
 
-*/
+let wordCount = 1;
+for (let word of strArray) {
+  const wordArr = word.split("_");
+  for (let i = 1; i < wordArr.length; i++) {
+    // let [a, ...charArr] = wordArr[i];
+    // wordArr[i] = [a.toUpperCase(), ...charArr].join("");
+    wordArr[i] = wordArr[i].replace(wordArr[i][0], wordArr[i][0].toUpperCase());
+  }
+  wordCount++;
+  const tick = "✅".repeat(wordCount);
+  console.log(wordArr.join("").padEnd(20, " ") + tick);
+}
