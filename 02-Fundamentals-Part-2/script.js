@@ -1,23 +1,22 @@
 // ****** ACTIVATING STRICT MODE ****** //
-'use strict';
+"use strict";
 console.log("***** JavaScript Fundamentals – Part 2 *****");
 // makes our JS code more secure
 // should be1st line in JS file. Comments can come before this line but no code.
 // this creates visible error in JS console which otherwise just fails on any error.
 
-
 // ****** FUNCTIONS ****** //
-function logger(name){								//name is parameters
-	return `My name is ${name}`;
+function logger(name) {
+  //name is parameters
+  return `My name is ${name}`;
 }
-console.log(logger('Siddhant'));		// calling, invoking or running a function
-console.log(logger('GeekySid'));
-
+console.log(logger("Siddhant")); // calling, invoking or running a function
+console.log(logger("GeekySid"));
 
 // ****** FUNCTION EXPRESSIONS v/s STATEMENTS ****** //
 // when we use a function name to define a function that signifies function statement
 function calcAge1(birthYear) {
-	return 2021 - birthYear;
+  return 2021 - birthYear;
 }
 let age1 = calcAge1(1986);
 console.log(age1);
@@ -25,66 +24,63 @@ console.log(age1);
 // Function Expression or Anonymous function
 // when we declare a function without a name and store it in a variable
 const calcAge2 = function (birthYear) {
-	return 2021 - birthYear;
-}
+  return 2021 - birthYear;
+};
 let age2 = calcAge2(1986);
 console.log(age2);
 
 // Function declared as an statement can be called before they are defined but
-// Function declared as an expression throws an error when called before they 
+// Function declared as an expression throws an error when called before they
 // are defined. this is because of concept called HOISTING.
-
 
 // ****** ARROW FUNCTION ****** //
 // Simpler and shorter form offunction expression
 // This function automatically returns the value if its a one-liner function
 // Arrow functions don't have this keywords.
-const calcAge3 = birthYear => 2021 - birthYear;
+const calcAge3 = (birthYear) => 2021 - birthYear;
 let age3 = calcAge2(1986);
 console.log(age3);
 
 // single parameter
-const yearsUntillRetirement = birthYear => {
-	const age = 2021 - birthYear;
-	return 65 - age;
-}
+const yearsUntillRetirement = (birthYear) => {
+  const age = 2021 - birthYear;
+  return 65 - age;
+};
 console.log(yearsUntillRetirement(1986));
 
 // multiple parameter
 const yearsUntillRetirement2 = (birthYear, retireAge, name) => {
-	const age = 2021 - birthYear;
-	const retirement =  retireAge - age;
-	return console.log(`${name} retires in ${retirement} years`)
-}
+  const age = 2021 - birthYear;
+  const retirement = retireAge - age;
+  return console.log(`${name} retires in ${retirement} years`);
+};
 yearsUntillRetirement2(1986, 66, "Siddhant");
 yearsUntillRetirement2(1991, 64, "Shilpa");
 
 // no parameter
 const yearsUntillRetirement3 = () => {
-	const age = 2021 - 1986;
-	return 65 - age;
-}
+  const age = 2021 - 1986;
+  return 65 - age;
+};
 console.log(`Time to retirement : ${yearsUntillRetirement3()}`);
-
 
 // ****** FUNCTION CALLING OTHER FUNCTION ****** //
 function fruitCutter(fruit) {
-	return fruit * 4;
+  return fruit * 4;
 }
 
 function fruitProcessor(orange, apple) {
-	const orangePrices = fruitCutter(orange);
-	const applePrices = fruitCutter(apple);
+  const orangePrices = fruitCutter(orange);
+  const applePrices = fruitCutter(apple);
 
-	return `Juice has ${orangePrices} orange pieces and ${applePrices} apple pieces`;
+  return `Juice has ${orangePrices} orange pieces and ${applePrices} apple pieces`;
 }
-console.log(fruitProcessor(1,2));
-console.log(fruitProcessor(0,4));
-
+console.log(fruitProcessor(1, 2));
+console.log(fruitProcessor(0, 4));
 
 // ****** ARRAYS ****** //
 // used to store multiple values in same variable
-const friends = ['Kanai', "Ram", 'Manish'];
+const friends = ["Kanai", "Ram", "Manish"];
 console.log(friends);
 // another was to define array - literal defination
 const years = new Array(1986, 1987, 1988);
@@ -98,11 +94,10 @@ friends[1] = "Rama";
 console.log(friends[1]);
 
 const calcAge4 = function (birthYear) {
-	return 2021 - birthYear;
-}
+  return 2021 - birthYear;
+};
 const ages = [calcAge4(years[0]), calcAge4(years[1]), calcAge4(years[2])];
 console.log(ages);
-
 
 // ****** ARRAY BASIC OPERATIONS ****** //
 console.log(friends);
@@ -126,72 +121,76 @@ console.log(friends, popedElement);
 // indexOf() => return index of element
 console.log(friends.indexOf("Rama"));
 
-// includes() => return true if element is in array else returns false. 
+// includes() => return true if element is in array else returns false.
 // It doesstrict equaity and hence no type coercion
 console.log(friends.includes("Rama"));
 console.log(friends.includes("Ram"));
 
-
 // ****** OBJECTS ****** //
 const person = {
-	firstname: 'Siddhant',
-	lastname: 'Shah',
-	age: 34,
-	job:'Freelancer',
-	friends: ['Kanai', "Ram", 'Manish']
+  firstname: "Siddhant",
+  lastname: "Shah",
+  age: 34,
+  job: "Freelancer",
+  friends: ["Kanai", "Ram", "Manish"],
 };
 console.log(person);
-console.log(person['friends']);
+console.log(person["friends"]);
 
-console.log(person['age']);
-person['age'] = 33;
-console.log(person['age']);
+console.log(person["age"]);
+person["age"] = 33;
+console.log(person["age"]);
 
-const nameKey = 'name';
+const nameKey = "name";
 console.log(person[`first${nameKey}`]);
 console.log(person[`last${nameKey}`]);
 
 // we get undefined if we try to accessproperty that doesnt exist
 // const insterestedIn = prompt("What do you want");
-const insterestedIn = 'Location';
+const insterestedIn = "Location";
 if (person[insterestedIn]) {
-	console.log(person[insterestedIn]);
+  console.log(person[insterestedIn]);
 } else {
-	console.log('Not a valid property');
+  console.log("Not a valid property");
 }
 
-person['location'] = "India";
-person.Coder = 'GeekySid';
+person["location"] = "India";
+person.Coder = "GeekySid";
 
-console.log(`${person['firstname']} has ${person['friends'].length} and his best friend is ${person['friends'][2]}`);
-console.log(`${person.firstname} has ${person.friends.length} and his best friend is ${person.friends[2]}`);
-
+console.log(
+  `${person["firstname"]} has ${person["friends"].length} and his best friend is ${person["friends"][2]}`
+);
+console.log(
+  `${person.firstname} has ${person.friends.length} and his best friend is ${person.friends[2]}`
+);
 
 // ****** OBJECTS OPERATIONS ****** //
 const person2 = {
-	firstname: 'Siddhant',
-	lastname: 'Shah',
-	birthYear: 1986,
-	job:'Freelancer',
-	friends: ['Kanai', "Ram", 'Manish'],
-	hasDriverLicens: false,
+  firstname: "Siddhant",
+  lastname: "Shah",
+  birthYear: 1986,
+  job: "Freelancer",
+  friends: ["Kanai", "Ram", "Manish"],
+  hasDriverLicens: false,
 
-	// calcAge: function () { 
-	// 	return 2021 - this.birthYear
-	// }
+  // calcAge: function () {
+  // 	return 2021 - this.birthYear
+  // }
 
-	// ** If we use above calcAge() function then computation will be perfomed everytime 
-	// ** age is required. This is not a good practice and so we create a new property
-	// ** inside calcAge() using this keyword and use this property whenever we need
-	// ** age, ofcourse we have to call calcAge() once before.
+  // ** If we use above calcAge() function then computation will be perfomed everytime
+  // ** age is required. This is not a good practice and so we create a new property
+  // ** inside calcAge() using this keyword and use this property whenever we need
+  // ** age, ofcourse we have to call calcAge() once before.
 
-	calcAge: function () { 
-		this.age = 2021 - this.birthYear
-		return this.age;
-	},
-	getSummary: function () {
-		return `${this.firstname} is a ${this.calcAge()}-year old ${this.job}, and has ${this.hasDriverLicens ? 'a' : 'no'} driver's license`;
-	}
+  calcAge: function () {
+    this.age = 2021 - this.birthYear;
+    return this.age;
+  },
+  getSummary: function () {
+    return `${this.firstname} is a ${this.calcAge()}-year old ${
+      this.job
+    }, and has ${this.hasDriverLicens ? "a" : "no"} driver's license`;
+  },
 };
 
 console.log(person2);
@@ -202,46 +201,266 @@ console.log(person2.age);
 console.log(person2.getSummary());
 
 // ****** ARRAY LOOPS ****** //
-const simpleArr = [
-	"sid",
-	'Shah',
-	23,
-	["A", "b", "C"],
-	true
-]
+const simpleArr = ["sid", "Shah", 23, ["A", "b", "C"], true];
 
 console.log(simpleArr);
-let simpleArrType = []
+let simpleArrType = [];
 
 // simple for loop
-for (let i=0; i<simpleArr.length; i++){
-	console.log(simpleArr[i], typeof simpleArr[i]);
-	simpleArrType.push(typeof simpleArr[i]);
+for (let i = 0; i < simpleArr.length; i++) {
+  console.log(simpleArr[i], typeof simpleArr[i]);
+  simpleArrType.push(typeof simpleArr[i]);
 }
 console.log(simpleArrType);
 simpleArrType = [];
 
 // looping backwards
-for (let i=simpleArr.length-1; i>=0; i--){
-	console.log(simpleArr[i], typeof simpleArr[i]);
-	simpleArrType.push(typeof simpleArr[i]);
+for (let i = simpleArr.length - 1; i >= 0; i--) {
+  console.log(simpleArr[i], typeof simpleArr[i]);
+  simpleArrType.push(typeof simpleArr[i]);
 }
 console.log(simpleArrType);
 
 // while loop
-let i = simpleArr.length-1
-while (i>=0) {
-	console.log(simpleArr[i], typeof simpleArr[i]);
-	i--;
+let i = simpleArr.length - 1;
+while (i >= 0) {
+  console.log(simpleArr[i], typeof simpleArr[i]);
+  i--;
 }
 
-let dice=0;
+let dice = 0;
 while (!(dice === 6)) {
-	dice = Math.floor(Math.random() * 6) + 1 ;
-	console.log(dice);
-	// break;
+  dice = Math.floor(Math.random() * 6) + 1;
+  console.log(dice);
+  // break;
 }
 
-// FOREACH in array
+// ****** ARRAY METHODS ****** //
+console.log("****** ARRAY METHODS ******");
+let arr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+console.log(`Original Array: ${arr}`);
+console.log(`Length of Original Array: ${arr.length}`);
 
-// FOREACH with MAPs and SETs in array
+// SPLICE()
+// This method is similar to splice method as it returns a new array with the
+// elements between startIndex and endIndex passed as the argument to the function.
+// The difference is that This function also mutates the original array and remove
+// these elements from original array
+console.log("////// SPLICE()");
+console.log(`newArr = arr.splice(2, 5)`);
+
+let newArr = arr.splice(8);
+console.log(`Original Array: ${arr}`);
+console.log(`Length of Original Array: ${arr.length}`);
+console.log(`Returned Array: ${newArr}`);
+console.log(`Length of Returned Array: ${newArr.length}`);
+console.log();
+console.log(`newArr = arr.splice(2, 5)`);
+newArr = arr.splice(2, 5);
+console.log(`Original Array: ${arr}`);
+console.log(`Length of Original Array: ${arr.length}`);
+console.log(`Returned Array: ${newArr}`);
+console.log(`Length of Returned Array: ${newArr.length}`);
+
+console.log();
+// Reverse()
+// This method is reverses the original arrays and returns a new array.
+// It also mutates the original array and reflects the changes in original array.
+arr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+console.log("////// REVERSE()");
+console.log(`Original Array: ${arr}`);
+console.log(`newArr = arr.reverse()`);
+newArr = arr.reverse();
+
+console.log(`Original Array: ${arr}`);
+console.log(`Returned Array: ${newArr}`);
+
+console.log();
+// CONCAT()
+// This method is concat array passed as the argument of the function to the
+// array on which function is beng called. This method doesn't mutates any array.
+let arr1 = ["a", "b", "c", "d", "e"];
+let arr2 = ["f", "g", "h", "i", "j"];
+console.log("////// CONCAT()");
+console.log(`Array 1: ${arr1}`);
+console.log(`Array 2: ${arr2}`);
+console.log(`arr1.concat(arr2)`);
+newArr = arr1.concat(arr2);
+console.log(`Returned Array: ${newArr}`);
+
+console.log();
+// JOIN()
+// This method is used to join all the elements of the array to each other as
+// a single string separated by a string passed as a argument of the function.
+// te resulting string is returned by the function.
+console.log("////// JOIN()");
+console.log(`Original Array: ${arr}`);
+console.log(`arr.join(' - ')`);
+newArr = arr.join(" - ");
+console.log(`Returned Array: ${newArr}`);
+
+// ****** ARRAY.forEach() ****** //
+console.log();
+console.log("****** ARRAY.forEach() ******");
+/*
+  This method is is applied on an array and accepts a callback function that is 
+  applied to each element of the array. The function accepts three parameter: 
+    element - actual element of the array 
+    index - actual index of the current element of the array
+    array - the original Array itself.
+*/
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+console.log(`Original Array: ${movements}`);
+
+// using just the element as parameter
+console.log("Using just the element as parameter");
+movements.forEach(function (el) {
+  console.log(`Current Element: ${el}`);
+});
+
+console.log();
+
+// using element and index as parameter
+console.log("Using element and index as parameter");
+movements.forEach(function (el, i) {
+  console.log(`Element at index ${i}: ${el}`);
+});
+
+console.log();
+
+// using element, index and array as parameter
+console.log("Using element, index and array as parameter");
+movements.forEach(function (el, i, arr) {
+  console.log(`Element at index ${i}: ${el} in array ${arr}`);
+});
+
+// Practical Example
+console.log();
+console.log("Practical Example");
+movements.forEach(function (el, i) {
+  console.log(
+    `${i + 1}. Amount ${Math.abs(el)} ${
+      el > 0 ? "deposited into" : "withdrawn from"
+    } bank.`
+  );
+});
+
+// ****** Map.forEach() ****** //
+console.log();
+console.log("****** Map.forEach() ******");
+/*
+  This method is similar to array's forEach() with a difference of parameters.
+  The 1st parameter is the values of the current key and 2nd value is the 
+  current key. Third parameter is the Map itself.
+  applied to each element of the array. The function accepts three parameter: 
+    value - actual value of the current key
+    key - current key
+    map - the original Map itself.
+*/
+
+const currencies = new Map([
+  ["USD", "United States dollar"],
+  ["EUR", "Euro"],
+  ["GBP", "Pound sterling"],
+]);
+
+console.log(`MAP:`);
+console.log(currencies);
+
+currencies.forEach((val, key, map) => {
+  console.log(`${key}: ${val}`);
+});
+
+// ****** Set.forEach() ****** //
+console.log();
+console.log("****** Set.forEach() ******");
+/*
+  This method is similar to array's forEach() with a difference of parameters.
+  The 1st parameter and 2nd parameter both are same and have a value of current 
+  element in the loop. Third parameter is the Map itself.
+  applied to each element of the array. The function accepts three parameter: 
+    value - actual value of the current key
+    _ - actual value of the current key
+    map - the original Map itself.
+*/
+
+const movements_set = new Set([...movements]);
+
+console.log(`Set:`);
+console.log(movements_set);
+
+movements_set.forEach((val, _, set) => {
+  console.log(
+    `${val}: ${Math.abs(val)} (${val > 0 ? "Deposit" : "Withdrawal"})`
+  );
+});
+
+// ****** ARRAY.map() ****** //
+console.log();
+console.log("****** ARRAY.map() ******");
+/*
+  This method is similar to forEach()as it is also applied on an array and 
+  accepts a callback function that is applied to each element of the array. 
+  The function accepts three parameter: 
+    element - actual element of the array 
+    index - actual index of the current element of the array
+    array - the original Array itself.
+  
+    The difference is that this method returns a new array with the result
+    of function applied to each element of the array
+
+    ** THIS METHOD IS NOT APPLIED TO MAPS directly
+*/
+
+console.log(`Original Array: ${movements}`);
+
+// const returnedArr = movements.map(function (el) {
+//   return el > 0 ? 'Deposit' : 'Withdrawal';
+// });
+const returnedArr = movements.map((el) => (el > 0 ? "Deposit" : "Withdrawal"));
+console.log(`Returned Array`);
+console.log(returnedArr);
+
+console.log();
+console.log(`//// Using map() for Maps indirectly`);
+
+console.log(currencies.get("USD"));
+console.log(currencies);
+const currencies_arr = [...currencies.keys()].map(
+  (el) => `${el} is abbreviation of ${currencies.get(el)}`
+);
+console.log(currencies_arr);
+
+// ****** ARRAY.reduce() ****** //
+console.log();
+console.log("****** ARRAY.reduce() ******");
+/*
+  This method is used when we want to do some work on each of the element and returns
+  a single value.
+  This method accepts the 2 arguments:
+    Callback function, which again as 4 parameters:
+      accumulator: this can be considered as the single value that we want to return
+      element
+      index
+      array
+    Initial state of the accumulator
+*/
+
+console.log(movements);
+const balance = movements.reduce((acc, el, i, arr) => {
+  console.log(`Loop ${i + 1}: acc: ${acc}, el: ${el}`);
+  return acc + el;
+}, 0);
+console.log(`Account Balance: ${balance}`);
+
+// calculating highest value
+console.log(movements);
+const maxValue = movements.reduce((acc, el, i, arr) => {
+  return acc > el ? acc : el;
+});
+console.log(`Maximum Deposited: ${maxValue}`);
+
+// calculating minimum value
+const minValue = movements.reduce((acc, el) => (acc > el ? el : acc));
+console.log(`Minimum Withdrawn: ${minValue}`);

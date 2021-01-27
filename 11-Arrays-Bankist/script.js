@@ -61,9 +61,10 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
+let movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+let currentAccount;
+let currencySymbol = '$';
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
@@ -71,6 +72,153 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+//////////// DISPLAYING TRANSACTIONS
+const displayTransactions = function (transArray) {
+  containerMovements.innerHTML = '';
 
-/////////////////////////////////////////////////
+  transArray.forEach(function (el, index) {
+    const type = el > 0 ? 'deposit' : 'withdrawal';
+    const html = `
+      <div class="movements__row">
+        <div class="movements__type movements__type--${type}">${
+      index + 1
+    } ${type}</div>
+        <div class="movements__date">3 days ago</div>
+        <div class="movements__value">${currencySymbol}${Math.abs(el)}</div>
+      </div>
+    `;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+displayTransactions(movements);
+
+//////////// USERNAME COMPUTATIONS
+const usernameComputation = function (accounts) {
+  accounts.forEach(function (el) {
+    el.username = el.owner
+      .toLowerCase()
+      .split(' ')
+      .map(el => el[0])
+      .join('');
+    // console.log(el);
+  });
+};
+usernameComputation(accounts);
+
+//////////// UPDATE UI AFTER LOGIN
+const updateUI = function () {
+  movements = currentAccount.movements;
+  displayTransactions(movements);
+
+  //// DEPOSIT ARRAY
+  const depositArray = movements.filter(el => el > 0);
+  currentAccount.depositArray = depositArray;
+  // console.log(depositArray);
+
+  //// WITHDRAW ARRAY
+  const withdrawArray = movements.filter(el => el < 0);
+  currentAccount.withdrawArray = withdrawArray;
+  // console.log(withdrawArray);
+
+  //// COMPUTING TOTAL DEPOSIT
+  const totalDeposit = depositArray.reduce((acc, el) => acc + el, 0);
+  // console.log(totalDeposit);
+  labelSumIn.innerHTML = `${currencySymbol}${totalDeposit}`;
+
+  //// COMPUTING TOTAL WITHDRAWAL
+  const totalWithdrawal = withdrawArray.reduce((acc, el) => acc + el, 0);
+  // console.log(totalWithdrawal);
+  labelSumOut.innerHTML = `${currencySymbol}${Math.abs(totalWithdrawal)}`;
+
+  //// COMPUTING BALANCE
+  const balance = totalDeposit - Math.abs(totalWithdrawal);
+  labelBalance.innerHTML = `${currencySymbol}${balance}`;
+  currentAccount.balance = balance;
+
+  //// COMPUTING INTEREST
+  const interest = depositArray
+    .map(el => (el * currentAccount.interestRate) / 100)
+    .filter(el => el >= 10)
+    .reduce((acc, el) => acc + el, 0);
+  currentAccount.interest = interest;
+  labelSumInterest.innerHTML = `${currencySymbol}${interest}`;
+};
+
+//////////// LOGIN COMPUTATION
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  const username = inputLoginUsername.value;
+  const password = inputLoginPin.value;
+
+  currentAccount = accounts.find(
+    acc => acc.username === username && acc.pin === Number(password)
+  );
+  if (currentAccount) {
+    updateUI();
+
+    containerApp.style.opacity = '100';
+    labelWelcome.innerHTML = `Welcome back, ${currentAccount.owner}`;
+    inputLoginUsername.value = '';
+    inputLoginPin.value = '';
+    inputLoginPin.blur();
+  } else {
+    containerApp.style.opacity = '0';
+    // containerApp.innerHTML = '';
+    alert('Invalid Username or Password');
+    labelWelcome.innerHTML = `Log in to get started`;
+  }
+});
+
+//////////// TRANSFER MONEY SETUP
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const transferAmount = Number(inputTransferAmount.value);
+  const toAccount = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  console.log(toAccount);
+
+  if (toAccount?.username === currentAccount.username) {
+    alert(`You can't transfer to your own account`);
+  } else if (toAccount) {
+    if (
+      transferAmount &&
+      transferAmount > 0 &&
+      currentAccount.balance >= transferAmount
+    ) {
+      toAccount.movements.push(transferAmount);
+      currentAccount.movements.push(transferAmount * -1);
+      updateUI();
+      inputTransferAmount.value = '';
+      inputTransferAmount.blur();
+      inputTransferTo.value = '';
+    } else {
+      alert(
+        `'${inputTransferAmount.value}' is not a valid amount or you don't have that much balance.`
+      );
+    }
+  } else {
+    alert(`No account found with '${inputTransferTo.value}'`);
+  }
+});
+
+//////////// CLOSE ACCOUNT
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const confirmUsername = inputCloseUsername.value;
+  const confirmPin = Number(inputClosePin.value);
+
+  if (
+    confirmUsername === currentAccount.username &&
+    confirmPin === currentAccount.pin
+  ) {
+    alert(`Account Closed Successfully.`);
+    containerApp.style.opacity = 0;
+    accounts.splice(accounts.indexOf(currentAccount), 1);
+    alert(`Account Closed Successfully.`);
+  } else {
+    alert(`Invalid Data.`);
+  }
+});
