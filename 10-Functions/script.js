@@ -257,7 +257,7 @@ console.log(" ****** BIND METHOD ****** ");
 
 /*
     Bind method is avery important method that not only allows us to explicitly
-        point this keyword to the object that is passed as the first arguement 
+        point this keyword to the object that is passed as the first argument 
         of the method but also returns a new function. This allows us to use
         bind method to create partial applications
 */

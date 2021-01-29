@@ -577,7 +577,7 @@ for (let sub of student.get("subject")) {
 
 // check if map has given keys
 console.log(student.has("score"));
-console.log(student.has("scor"));
+console.log(student.has("score"));
 
 // delete key from map - delete(key) => returns true if key is deleted else return false
 console.log([...student.keys()]);

@@ -464,3 +464,211 @@ console.log(`Maximum Deposited: ${maxValue}`);
 // calculating minimum value
 const minValue = movements.reduce((acc, el) => (acc > el ? el : acc));
 console.log(`Minimum Withdrawn: ${minValue}`);
+
+// ****** ARRAY.find() ****** //
+console.log();
+console.log("****** ARRAY.find() ******");
+/*
+  This method is used to find if a value is available in an array. If value is found 
+    then it is returned else undefined is returned. If multiple value exists the only
+    the 1st occurrance is returned.
+
+  This method accepts the 1 argument:
+    Callback function, that has a expression that computes to true or false.
+*/
+arr = [1, 2, 3, 2, 4, 5];
+console.log(arr);
+
+const findVal = (val) => arr.find((el) => el === val);
+const val1 = 2;
+const val2 = 6;
+console.log(
+  findVal(val1) ? `${val1} exist in array` : `${val1} is not in array`
+);
+console.log(
+  findVal(val2) ? `${val2} exist in array` : `${val2} is not in array`
+);
+
+// ****** ARRAY.findIndex() ****** //
+console.log();
+console.log("****** ARRAY.findIndex() ******");
+/*
+  This method is used to finds if value is available in an array and if it is found then
+    its index is returned else -1 is returned. If multiple value exists the index
+    of only 1st occurrence is returned.
+
+  This method accepts the 1 argument:
+    Callback function, that has a expression that computes to true or false.
+*/
+const findValIndex = (val) => arr.findIndex((el) => el === val);
+const indexOf2 = findValIndex(val1);
+const indexOf6 = findValIndex(val2);
+console.log(
+  findValIndex(val1)
+    ? `${val1} exists @ ${indexOf2} index`
+    : `${val1} doesn't exists`
+);
+console.log(
+  findValIndex(val2) >= 0
+    ? `${val2} exists @ ${indexOf6} index`
+    : `${val2} doesn't exists`
+);
+
+// ****** ARRAY.some() ****** //
+console.log();
+console.log("****** ARRAY.some() ******");
+/*
+  This method is used to finds if any of the value in array matches a given condition 
+    mentioned in a callback function that this method accepts as 1st argument. It 
+    only returns true (if any element satisfy the conditions) or false (if no 
+    element satisfy the conditions)
+
+    In this method, callback function  loops to elements of array one by one till it 
+    gets a value that satisfies the condition. At this moment method terminates 
+    and returns true else the callback function is applied till last element of
+    the array and then false is returned if all elements doesn't satisfies the condition.
+
+  This method accepts the 1 argument:
+    Callback function, that has a expression that computes to true or false.
+*/
+// check if array has any number divisible by given number
+const isDivisible = (val) => arr.some((el) => el % val === 0);
+console.log(`array has an element divisible by 4 => ${isDivisible(4)}`);
+console.log(`array has an element divisible by 6 => ${isDivisible(6)}`);
+
+// ****** ARRAY.every() ****** //
+console.log();
+console.log("****** ARRAY.every() ******");
+/*
+  This method is used to finds if any of the value in array matches a given condition 
+    mentioned in a callback function that this method accepts as 1st argument. It 
+    only returns true (if any element satisfy the conditions) or false (if no 
+    element satisfy the conditions). 
+    
+    In this method, callback function  loops to elements of array one by one till it 
+    gets a value that does not satisfy the condition. At this moment method terminates 
+    and returns false else the callback function is applied till last element of
+    the array and then true is returned if all elements satisfy the condition.
+    
+  This method accepts the 1 argument:
+    Callback function, that has a expression that computes to true or false.
+*/
+
+console.log(`arr => ${arr}`);
+arr2 = ["a", "b", "c"];
+console.log(`arr2 => ${arr2}`);
+let isNumber = arr.every((el) => isFinite(el));
+console.log(`array has all number => ${isNumber}`);
+isNumber = arr2.every((el) => isFinite(el));
+console.log(`array2 has all number => ${isNumber}`);
+
+// ****** ARRAY.flat() ****** //
+console.log();
+console.log("****** ARRAY.flat() ******");
+/*
+  This method is used to flatten an array. This means that if we have a nested array,
+  then this function will spread those nested array and provide as single flat array.
+  Level of flattening of array depends on the value provided as an argument of method.
+  By default the value is 1
+*/
+
+// Default 1 level deep flattening of nested array
+arr = [1, 2, 3, [4, 5, 6], [7, 8, 9]];
+let flatArr = arr.flat();
+console.log(`Before:`);
+console.log(arr);
+console.log(`After arr.flat(): `);
+console.log(flatArr);
+
+// Default 1 level deep flattening of multi-nested array
+arr = [1, 2, 3, [4, [5, 6]], 7, [8, 9]];
+flatArr = arr.flat();
+console.log(`Before:`);
+console.log(arr);
+console.log(`After arr.flat(): `);
+console.log(flatArr);
+
+// 2 level deep of flattening multi-nested array
+flatArr = arr.flat(2);
+console.log(`Before:`);
+console.log(arr);
+console.log(`After arr.flat(2): `);
+console.log(flatArr);
+
+// 3 level deep of flattening multi-nested array
+flatArr = arr.flat(3);
+console.log(`Before:`);
+console.log(arr);
+console.log(`After arr.flat(3): `);
+console.log(flatArr);
+
+// ****** ARRAY.sort() ****** //
+console.log();
+console.log("****** ARRAY.sort() ******");
+/*
+  This method is used to sort an array in ascending order. In order to short 
+  array in descending order, we can use reverse method after using sort method.
+
+  This Method sort after coercing every element to string and the sorting them
+  alphabetically.
+*/
+
+arr = ["d", "a", "f", "r", "q"];
+console.log("No Sort: ");
+console.log(arr);
+
+let sortArr = arr.sort();
+console.log("Ascending Sort: ");
+console.log(sortArr);
+
+arr = ["d", "a", "f", "r", "q"];
+sortArr = arr.sort().reverse();
+console.log("Descending Sort: ");
+console.log(sortArr);
+
+// SORTING NUMBERS - ASCENDING
+const sortAscending = (arr) => arr.sort((a, b) => a - b);
+
+// SORTING NUMBERS - DESCENDING
+const sortDescending = (arr) => arr.sort((a, b) => b - a);
+arr = [4, 6, 3, 6, 1, 9, 11, 52, 75];
+console.log(arr);
+
+console.log("Ascending Sort: ");
+console.log(sortAscending(arr));
+console.log("Descending Sort: ");
+console.log(sortDescending(arr));
+
+// ****** ARRAY.fill() ****** //
+console.log();
+console.log("****** ARRAY.fill() ******");
+/*
+  This method is used to sort an array in ascending order. In order to short 
+  array in descending order, we can use reverse method after using sort method.
+
+  This method takes 3 arguments
+      - value: value to be inserted
+      - startIndex : default value -> 0 : index from which value wil be inserted
+      - endIndex : default value -> array.length: (index-1) up to which value wil be 
+                  inserted. 
+*/
+
+console.log("Original array");
+console.log(arr);
+arr = arr.fill(2, 5, arr.length); // fill array from 5th index to end of array with 2
+console.log("After => arr.fill(2, 5, arr.length)");
+console.log(arr);
+
+// creating empty array
+arr = new Array();
+console.log(arr);
+
+// creating new array with empty slots
+console.log("Creating new array with 7 empty slots");
+arr = new Array(7);
+console.log("arr = new Array(7)");
+console.log(arr);
+
+console.log("filling all this with value Sid");
+arr.fill("Sid");
+console.log(arr);
