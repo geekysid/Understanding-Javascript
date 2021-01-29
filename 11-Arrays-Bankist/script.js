@@ -64,6 +64,7 @@ let movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 let currentAccount;
 let currencySymbol = '$';
+let orgMovements;
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
@@ -106,8 +107,9 @@ const usernameComputation = function (accounts) {
 usernameComputation(accounts);
 
 //////////// UPDATE UI AFTER LOGIN
-const updateUI = function () {
-  movements = currentAccount.movements;
+const updateUI = function (sort = false) {
+  movements = [...currentAccount.movements];
+  if (sort) movements.sort((a, b) => b - a);
   displayTransactions(movements);
 
   //// DEPOSIT ARRAY
@@ -220,4 +222,48 @@ btnClose.addEventListener('click', function (e) {
   } else {
     alert(`Invalid Data.`);
   }
+});
+
+//////////// LOAN REQUEST
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  let loanAmount = inputLoanAmount.value;
+
+  if (loanAmount) {
+    if (isFinite(loanAmount)) {
+      loanAmount = +loanAmount;
+
+      // find a deposit,10% of which is more then the entire loan
+      const loanPass = currentAccount.depositArray.some(
+        el => el * 0.1 >= loanAmount
+      );
+      if (loanPass) {
+        currentAccount.movements.push(loanAmount);
+        currentAccount.depositArray.push(loanAmount);
+        alert(
+          'Your loan is sanctioned. It will reflect in your account in 5 seconds.'
+        );
+
+        setTimeout(() => {
+          updateUI();
+        }, 5000);
+      } else {
+        alert('You are not eligible for loan of this amount.');
+      }
+    } else {
+      alert('Enter Valid Loan Amount');
+    }
+  } else {
+    alert('Loan Amount is Empty');
+  }
+});
+
+let sortCount = 1;
+
+//////////// SORT TRANSACTIONS
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (sortCount % 2 === 0) updateUI(true);
+  else updateUI();
+  sortCount++;
 });
