@@ -34,7 +34,7 @@ document.addEventListener('keydown', function (e) {
 
 // >> querySelector()
 // returns the 1st matching element
-const header = document.querySelector('.header');
+let header = document.querySelector('.header');
 console.log(header);
 const selection = document.querySelector('.section');
 console.log(selection);
@@ -277,7 +277,7 @@ setTimeout(() => {
 // So here wehn we click on an element, the an event dosen't simple occure at that element, It travels from the document level to it... i.e., it traverse through all the parent elements of that element before reaching it. This is called EVENT CAPTURING. At this moment the event occues at the element. After that the click event again traberse through all the element to reach the document element and ultimately event cease of exists. This is called BUBLING PHASE. In this phase if any of the parent element of the element has same event listener, then event will happen at that parent element as well. This is how event propogates through the DOM.
 
 // >> e.target => always represents the element on which event have initually happened.
-// >> this => always represents the element to which the event is tied to in bubling phase.
+// >> this => always represents the element to which the event is tied to in bubbling phase.
 // >> e.currentTarget => always represents the element to which the event is tied to in bubling phase. This is same as 'this' here
 
 const link_element = document.querySelector('.nav__link');
@@ -302,7 +302,7 @@ link_element.addEventListener('click', function (e) {
 });
 
 // adding event listener to navbar
-nav.addEventListener('click', function (e) {
+document.querySelector('.nav').addEventListener('click', function (e) {
   console.log();
   console.log(`nav => this keyword is => `, this);
   console.log(`nav => e.target is => `, e.target);
@@ -314,7 +314,7 @@ nav.addEventListener('click', function (e) {
 // >> Events in CAPTURING pahse
 // for this we need to provide a 3rd parameter to the event listener as true which makes the ecent to occure in capturing phase. By default the value of this is false
 // adding event listener to navbar
-nav.addEventListener(
+document.querySelector('.nav').addEventListener(
   'click',
   function (e) {
     console.log();
@@ -329,3 +329,171 @@ nav.addEventListener(
 );
 
 // _______ EVENT DELEGATION _______ //
+// This is a simple method where we add a single event handler to a parent element which is executed when an event is triggered in child elemenet. This allows us to not write same event handler on multile child elements. Here we use the concept of Event Bubbling Up...
+
+// >> Without Event Delegation we have to attach the define same event handler to multiple elements
+document.querySelectorAll('.nav__link').forEach(function (el) {
+  el.addEventListener('click', function (e) {
+    e.preventDefault();
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// >> With Event Delegation we just add event handeler in a way that it will be indirectly called when different child elements are clicked
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // MATCHING STRATEGY determining where the event actually happened and making sure we only add event handler to the correct element
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+// _______ DOM TRAVERSING _______ //
+
+const h1 = document.querySelector('.highlight');
+console.log(`h1 => `, h1);
+
+// >> getting Parent Element of an element
+let parentEl = h1.parentElement;
+console.log('parentEl => ', parentEl);
+
+// >> Going UPWARD > closest() => This function can be considered similar to querySelector() with one difference. querySelector() looks for matching element in child elements (directs and indirect) where as closest() looks for first matching element in parents elements (direct or indirect)
+parentEl = h1.closest('div');
+console.log('parentEl => ', parentEl);
+
+// >> getting direct Child Elements
+let childEl = parentEl.children;
+console.log('childrenEl =>', childEl);
+[...childEl].forEach(function (el) {
+  console.log('childEl =>', el);
+});
+
+// >> getting direct Childrent Elements count
+const childElCount = parentEl.childElementCount;
+console.log('childElCount => ', childElCount);
+
+// >> getting First Child
+const firstChildEl = parentEl.firstElementChild;
+console.log('firstChildEl => ', firstChildEl);
+
+// >> getting Last Child
+const lastChildEl = parentEl.lastElementChild;
+console.log('lastChildEl => ', lastChildEl);
+
+// >> getting previous sibbling
+const previousSibblingEl = lastChildEl.previousElementSibling;
+console.log(`previousSibblingEl => `, previousSibblingEl);
+
+// >> getting next sibbling
+const nextSibblingEl = firstChildEl.nextElementSibling;
+console.log('nextSibblingEl => ', nextSibblingEl);
+
+// >> getting all siblings => first we get the parent and then we get all the child of parent and finally select all but itself
+const sibblings = firstChildEl.parentElement.children;
+console.log(`sibblings => `, sibblings);
+[...sibblings].forEach(function (el) {
+  if (!(el === firstChildEl)) {
+    console.log(`sibblings => `, el);
+  }
+});
+
+// >> BUILDING TABBED COMPONENT
+
+// selecting all nodes
+const tabs = document.querySelectorAll('.operations__tab');
+const contents = document.querySelectorAll('.operations__content');
+const tab_container = document.querySelector('.operations__tab-container');
+
+// adding event handler to tab container
+tab_container.addEventListener('click', function (e) {
+  const clickedElement = e.target.closest('.operations__tab');
+
+  // removing active class from all tab button and content
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  contents.forEach(content =>
+    content.classList.remove('operations__content--active')
+  );
+
+  const data = clickedElement.getAttribute('data-tab');
+  const linked_content = document.querySelector(
+    `.operations__content--${data}`
+  );
+
+  // adding active class to clikced active button and content
+  clickedElement.classList.add('operations__tab--active');
+  linked_content.classList.add('operations__content--active');
+  console.log(linked_content);
+});
+
+// >> SETTING MENU OPACITY
+// using BIND
+const linkOpacityHandler = function (e) {
+  const links = document.querySelectorAll('.nav__link');
+  const image = document.querySelector('.nav__logo');
+  // matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    [...links].forEach(link => {
+      if (link !== e.target) link.style.opacity = this;
+    });
+    image.style.opacity = this;
+  }
+};
+document
+  .querySelector('.nav')
+  .addEventListener('mouseover', linkOpacityHandler.bind(0.5));
+document
+  .querySelector('.nav')
+  .addEventListener('mouseout', linkOpacityHandler.bind(1));
+
+// // using DRY
+// const linkOpacityHandler = (e, opcty) => {
+//   const links = document.querySelectorAll('.nav__link');
+//   const image = document.querySelector('.nav__logo');
+
+//   // matching strategy
+//   if (e.target.classList.contains('nav__link')) {
+//     [...links].forEach(link => {
+//       if (link !== e.target) link.style.opacity = opcty;
+//     });
+//     image.style.opacity = opcty;
+//   }
+// };
+
+// document.querySelector('.nav').addEventListener('mouseover', function (e) {
+//   linkOpacityHandler(e, 0.5);
+// });
+// document.querySelector('.nav').addEventListener('mouseout', function (e) {
+//   linkOpacityHandler(e, 1);
+// });
+
+// // setting opacity to 0.5 when mouse over
+// document.querySelector('.nav').addEventListener('mouseover', function (e) {
+//   const links = document.querySelectorAll('.nav__link');
+//   const image = document.querySelector('.nav__logo');
+//   console.log(image);
+
+//   // matching strategy
+//   if (e.target.classList.contains('nav__link')) {
+//     [...links].forEach(link => {
+//       if (link !== e.target) link.style.opacity = 0.5;
+//     });
+//     image.style.opacity = 0.5;
+//   }
+// });
+// // setting opacity to 0.5 when mouseout
+// document.querySelector('.nav').addEventListener('mouseout', function (e) {
+//   const links = document.querySelectorAll('.nav__link');
+//   const image = document.querySelector('.nav__logo');
+//   console.log(image);
+
+//   // matching strategy
+//   if (e.target.classList.contains('nav__link')) {
+//     [...links].forEach(link => {
+//       if (link !== e.target) link.style.opacity = 1;
+//     });
+//     image.style.opacity = 1;
+//   }
+// });
